@@ -1,0 +1,43 @@
+<h2>RUT validado: {{ rut }}</h2>
+
+<form id="formCantidad">
+  <label>¿Cuántos perros?</label>
+  <input type="number" id="perros" name="perros" min="0" required>
+  <br>
+  <label>¿Cuántos gatos?</label>
+  <input type="number" id="gatos" name="gatos" min="0" required>
+  <br>
+  <button type="button" onclick="generarCampos()">Continuar</button>
+</form>
+
+<form id="formAnimales" action="/guardar" method="POST" style="display:none;">
+  <input type="hidden" name="rut" value="{{ rut }}">
+  <div id="camposAnimales"></div>
+  <button type="submit">Generar Número de Atención</button>
+</form>
+
+<script>
+function generarCampos() {
+  const perros = parseInt(document.getElementById("perros").value);
+  const gatos = parseInt(document.getElementById("gatos").value);
+  const total = perros + gatos;
+
+  const contenedor = document.getElementById("camposAnimales");
+  contenedor.innerHTML = "";
+
+  for (let i = 1; i <= total; i++) {
+    contenedor.innerHTML += `
+      <h4>Animal ${i}</h4>
+      Nombre: <input type="text" name="nombre_${i}" required><br>
+      Servicio: 
+      <select name="servicio_${i}">
+        <option>Vacunación</option>
+        <option>Desparasitación</option>
+        <option>Control general</option>
+      </select><br><br>
+    `;
+  }
+
+  document.getElementById("formAnimales").style.display = "block";
+}
+</script>

@@ -1,0 +1,10 @@
+from database import crear_tablas
+
+crear_tablas()
+
+# Luego corre esto una vez para agregar algunos RUTs válidos de prueba
+import sqlite3
+conn = sqlite3.connect('data/clientes.db')
+conn.execute("INSERT INTO clientes (rut) VALUES ('12345678-9')")
+conn.commit()
+conn.close()
