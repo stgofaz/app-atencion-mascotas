@@ -24,6 +24,18 @@ def atencion():
         guardar_datos(rut, request.form, nro_atencion)  # ✅ PASA request.form completo
         return f"Gracias, tu número de atención es: <b>{nro_atencion}</b>"
     return render_template('atencion.html', rut=rut)
+from flask import send_file
+import pandas as pd
+import os
+
+@app.route('/exportar')
+def exportar_datos():
+    archivo = "datos.xlsx"
+    if os.path.exists(archivo):
+        return send_file(archivo, as_attachment=True)
+    else:
+        return "Archivo no encontrado", 404
+
 
 if __name__ == '__main__':
     app.run(debug=True)
