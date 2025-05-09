@@ -36,6 +36,16 @@ def exportar_datos():
     else:
         return "Archivo no encontrado", 404
 
+@app.route('/reiniciar_db')
+def reiniciar_db():
+    import sqlite3
+    conn = sqlite3.connect('datos.db')
+    c = conn.cursor()
+    c.execute("DELETE FROM atenciones")  # Borra todos los datos
+    conn.commit()
+    conn.close()
+    return "Base de datos reiniciada con éxito."
+
 
 if __name__ == '__main__':
     app.run(debug=True)
