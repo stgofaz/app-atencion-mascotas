@@ -24,9 +24,8 @@ def init_db():
 
 # Validar RUT (puedes expandir esta lógica)
 def validar_rut(rut):
-    df_ruts = pd.read_excel("rut_validos.xlsx")
-    ruts_validos = df_ruts['Rut'].astype(str).str.strip().tolist()
-    return rut.strip() in ruts_validos
+    return rut.strip() in RUTS_VALIDOS
+
 
 # Generar número de atención aleatorio
 def generar_numero_atencion():
@@ -82,6 +81,16 @@ def guardar_datos(rut, form_data, numero_atencion):
     with excel_lock:
         df_final.to_excel(archivo, index=False)
 
+# Ruta al archivo Excel
+EXCEL_RUTS_PATH = "rut_validos.xlsx"
+
+# Leer el Excel una vez al iniciar
+try:
+    ruts_df = pd.read_excel(EXCEL_RUTS_PATH)
+    RUTS_VALIDOS = set(ruts_df.iloc[:, 0].astype(str).str.strip())  # primera columna
+except Exception as e:
+    print("Error al cargar ruts válidos:", e)
+    RUTS_VALIDOS = set()
 
 
 
