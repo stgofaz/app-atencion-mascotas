@@ -2,6 +2,8 @@ import sqlite3
 import pandas as pd
 import os
 import random
+import threading
+excel_lock = threading.Lock()
 
 # Crear base de datos si no existe
 def init_db():
@@ -62,7 +64,7 @@ def guardar_datos(rut, form_data, numero_atencion):
     conn.commit()
     conn.close()
 
-    # Guardar en Excel
+    # Guardar en Excel con lock
     archivo = "datos.xlsx"
     df_nuevo = pd.DataFrame(registros)
 
@@ -72,5 +74,10 @@ def guardar_datos(rut, form_data, numero_atencion):
     else:
         df_final = df_nuevo
 
-    df_final.to_excel(archivo, index=False)
+    # 🔐 Protección de escritura simultánea
+    with excel_lock:
+        df_final.to_excel(archivo, index=False)
+
+
+
 

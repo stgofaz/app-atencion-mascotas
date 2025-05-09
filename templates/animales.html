@@ -1,5 +1,14 @@
-<h2>RUT validado: {{ rut }}</h2>
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <title>Atención Mascotas</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+  <div class="container">
 
+<h2>RUT validado: {{ rut }}</h2>
 <form id="formCantidad">
   <label>¿Cuántos perros?</label>
   <input type="number" id="perros" name="perros" min="0" required>
@@ -41,3 +50,7 @@ function generarCampos() {
   document.getElementById("formAnimales").style.display = "block";
 }
 </script>
+</div>
+</body>
+</html>
+
