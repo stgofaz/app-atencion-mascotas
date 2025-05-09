@@ -21,8 +21,14 @@ def atencion():
     rut = request.args.get('rut')
     if request.method == 'POST':
         nro_atencion = generar_numero_atencion()
-        guardar_datos(rut, request.form, nro_atencion)  # ✅ PASA request.form completo
-        return f"Gracias, tu número de atención es: <b>{nro_atencion}</b>"
+        guardar_datos(rut, request.form, nro_atencion)
+        return f'''
+<h2>Gracias, tu número de atención es: <b>{nro_atencion}</b></h2>
+<br>
+<form action="/">
+    <button type="submit">Volver al inicio</button>
+</form>
+'''
     return render_template('atencion.html', rut=rut)
 from flask import send_file
 import pandas as pd

@@ -24,8 +24,9 @@ def init_db():
 
 # Validar RUT (puedes expandir esta lógica)
 def validar_rut(rut):
-    rut_validos = ["14.123.220-7", "12.345.678-9", "11.111.111-1"]
-    return rut.strip() in rut_validos
+    df_ruts = pd.read_excel("rut_validos.xlsx")
+    ruts_validos = df_ruts['Rut'].astype(str).str.strip().tolist()
+    return rut.strip() in ruts_validos
 
 # Generar número de atención aleatorio
 def generar_numero_atencion():
@@ -33,6 +34,7 @@ def generar_numero_atencion():
 
 # Guardar datos en SQLite y en Excel
 def guardar_datos(rut, form_data, numero_atencion):
+    from datetime import datetime
     conn = sqlite3.connect('datos.db')
     c = conn.cursor()
 
@@ -42,15 +44,16 @@ def guardar_datos(rut, form_data, numero_atencion):
     registros = []
 
     for i in range(1, total+1):
+        fecha_actual = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
         nombre = form_data.get(f'nombre_{i}')
         servicios = form_data.getlist(f'servicio_{i}')
         tipo = "Perro" if i <= n_perros else "Gato"
 
         # Guardar en SQLite
         c.execute('''
-            INSERT INTO atenciones (rut, nombre, tipo, servicios, numero_atencion)
-            VALUES (?, ?, ?, ?, ?)
-        ''', (rut, nombre, tipo, ', '.join(servicios), numero_atencion))
+    INSERT INTO atenciones (rut, nombre, tipo, servicios, numero_atencion, fecha_hora)
+    VALUES (?, ?, ?, ?, ?, ?)
+''', (rut, nombre, tipo, ', '.join(servicios), numero_atencion, fecha_actual))
 
         # Preparar para Excel
         registros.append({
@@ -58,7 +61,8 @@ def guardar_datos(rut, form_data, numero_atencion):
             "Nombre": nombre,
             "Tipo": tipo,
             "Servicios": ", ".join(servicios),
-            "Número Atención": numero_atencion
+            "Número Atención": numero_atencion,
+            "Fecha y Hora": fecha_actual
         })
 
     conn.commit()
