@@ -119,6 +119,7 @@
 
       const servicios = [
         "Validación Microchip",
+        "Aplicación Microchip",
         "Vacuna Antirábica",
         "Vacuna Polivalente",
         "Vacuna Triple Felina"
@@ -130,6 +131,8 @@
             <h3>Perro ${i}</h3>
             <label>Nombre:</label>
             <input type="text" name="nombre_${index}" required>
+            <label>Número de Atención:</label>
+<input type="text" name="numero_atencion_${index}" placeholder="Ej: A123">
             <label>Servicios:</label><br>
             ${servicios.map(s => `
               <label><input type="checkbox" name="servicio_${index}" value="${s}"> ${s}</label><br>
@@ -145,6 +148,8 @@
             <h3>Gato ${i}</h3>
             <label>Nombre:</label>
             <input type="text" name="nombre_${index}" required>
+            <label>Número de Atención:</label>
+<input type="text" name="numero_atencion_${index}" placeholder="Ej: A123">
             <label>Servicios:</label><br>
             ${servicios.map(s => `
               <label><input type="checkbox" name="servicio_${index}" value="${s}"> ${s}</label><br>
@@ -168,6 +173,14 @@
           alert(`Debes seleccionar al menos un servicio para el animal número ${i}.`);
           return false;
         }
+        for (let i = 1; i <= total; i++) {
+  const numero = document.querySelector(`input[name="numero_atencion_${i}"]`);
+  if (!numero || numero.value.trim() === "") {
+    alert(`Debes ingresar el Número de Atención para el animal número ${i}.`);
+    return false;
+  }
+}
+
       }
       return true;
     }

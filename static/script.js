@@ -16,6 +16,7 @@ document.addEventListener('DOMContentLoaded', () => {
                     <option value="peluquería">Peluquería</option>
                     <option value="control">Control veterinario</option>
                 </select>
+                <input type="text" name="numero_atencion_${tipo}_${i}" placeholder="Número de Atención">                
             `;
             container.appendChild(div);
         }

@@ -1,6 +1,10 @@
 from flask import Flask, render_template, request, redirect, url_for
 from database import validar_rut, guardar_datos, generar_numero_atencion, init_db
 
+
+
+
+
 app = Flask(__name__)
 
 # Inicializar base de datos
@@ -55,4 +59,6 @@ def reiniciar_db():
 
 if __name__ == '__main__':
     app.run(debug=True)
+
+
 
