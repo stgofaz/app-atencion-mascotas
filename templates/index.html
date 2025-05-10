@@ -76,7 +76,11 @@
       <div class="error">{{ error }}</div>
     {% endif %}
     <label for="rut">RUT (opcional):</label>
-    <input type="text" name="rut" id="rut" placeholder="Ej: 12345678-9">
+    <input type="text" name="rut" required
+    pattern="^(\d{6}-[\dkK]|\d{7}-[\dkK]|\d{8}-[\dkK])$"
+    placeholder="Ej: 14123220-7"
+    title="Formato válido: RUT con guion y dígito verificador. Ej: 1123456-7 o 14123220-7">
+  
     <button type="submit">Continuar</button>
   </form>
 
