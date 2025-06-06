@@ -24,7 +24,7 @@ def init_db():
 
 # Validar RUT (puedes expandir esta lógica)
 def validar_rut(rut):
-    return rut.strip() in RUTS_VALIDOS
+    return rut.strip().upper() in (r.upper() for r in RUTS_VALIDOS)
 
 
 # Generar número de atención aleatorio
@@ -46,13 +46,15 @@ def guardar_datos(rut, form_data, numero_atencion):
         fecha_actual = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
         nombre = form_data.get(f'nombre_{i}')
         servicios = form_data.getlist(f'servicio_{i}')
+        numero_atencion_individual = form_data.get(f'numero_atencion_{i}')
         tipo = "Perro" if i <= n_perros else "Gato"
 
         # Guardar en SQLite
         c.execute('''
-    INSERT INTO atenciones (rut, nombre, tipo, servicios, numero_atencion, fecha_hora)
-    VALUES (?, ?, ?, ?, ?, ?)
-''', (rut, nombre, tipo, ', '.join(servicios), numero_atencion, fecha_actual))
+INSERT INTO atenciones (rut, nombre, tipo, servicios, numero_atencion, fecha_hora)
+VALUES (?, ?, ?, ?, ?, ?)
+''', (rut, nombre, tipo, ', '.join(servicios), numero_atencion_individual, fecha_actual))
+
 
         # Preparar para Excel
         registros.append({
@@ -60,7 +62,7 @@ def guardar_datos(rut, form_data, numero_atencion):
             "Nombre": nombre,
             "Tipo": tipo,
             "Servicios": ", ".join(servicios),
-            "Número Atención": numero_atencion,
+            "Número Atención": numero_atencion_individual,
             "Fecha y Hora": fecha_actual
         })
 
